@@ -7,13 +7,15 @@ export default function AsciiConverter() {
     const [sourceImage, setSourceImage] = useState<HTMLImageElement | null>(null);
     const [width, setWidth] = useState(200);
     const [charSize, setCharSize] = useState(6);
-
+    const [count, setCount] = useState<number>(0);
     const ascii = useMemo(() => {
         if (!sourceImage) return "";
 
         const imageData = getResizedImageData(sourceImage, width);
         return imageDataToAscii(imageData);
     }, [sourceImage, width]);
+
+    const charCount = ascii.replace(/\n/g, "").length;
 
     function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
         const file = e.target.files?.[0];
@@ -58,6 +60,10 @@ export default function AsciiConverter() {
                     />
                 </label>
             </div>
+
+            <p className="w-fit mx-auto">Character count: {charCount}</p>
+
+
 
             <div className="mt-4 w-fit overflow-auto mx-auto bg-black p-4">
                 <pre
