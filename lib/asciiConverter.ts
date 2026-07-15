@@ -1,6 +1,6 @@
 const ASCII_CHARS = "@%#•?+;-. ";
 
-export function imageDataToAscii(imageData: ImageData): string {
+export function imageDataToAscii(imageData: ImageData, invert = false): string {
     const { data, width: imgWidth, height: imgHeight } = imageData;
     let ascii = "";
 
@@ -14,9 +14,10 @@ export function imageDataToAscii(imageData: ImageData): string {
             // luminance formula
             const brightness = 0.2126 * r + 0.7152 * g + 0.0722 * b;
 
-            const charIndex = Math.floor(
+            let charIndex = Math.floor(
                 (brightness / 255) * (ASCII_CHARS.length - 1)
             );
+            if (invert) charIndex = ASCII_CHARS.length - 1 - charIndex;
             ascii += ASCII_CHARS[charIndex];
         }
         ascii += "\n";
